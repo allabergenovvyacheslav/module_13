@@ -23,7 +23,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 import asyncio
 
-api = "7817004865:AAFBqVj3Xa3maRLafdwpfAYqoBnVr0IBUdw"
+api = ""
 bot = Bot(token=api)
 dp = Dispatcher(bot, storage=MemoryStorage())
 
@@ -45,6 +45,13 @@ async def start_message(message):
     keyboard.add(button_1)
     keyboard.add(button_2)
     await message.answer('Привет! Я бот помогающий твоему здоровью.', reply_markup=keyboard)
+
+
+@dp.message_handler(text='Информация')
+async def inform(message):
+    await message.answer(
+        'Этот бот помогает рассчитать сколько вам необходимо потреблять ежедневно калорий.'
+    )
 
 
 @dp.message_handler(text='Рассчитать')
@@ -95,6 +102,11 @@ async def send_calories(message, state):
         )
         await message.answer(f'Ваша норма калорий {res_for_men}')
     await state.finish()
+
+
+if __name__ == '__main__':
+    executor.start_polling(dp, skip_updates=True)
+
 
 
 if __name__ == '__main__':
